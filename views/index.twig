@@ -1,0 +1,562 @@
+{% extends 'layout.twig' %} 
+
+{% block pageTitle %} 
+  <title>Prostate Cancer Diagnosis</title>
+{% endblock %} 
+
+{% block pageMetaTags %} 
+  <meta charset="utf-8">
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Prostate Cancer">
+    <meta name="keywords" content="Cancer">
+    <meta name="author" content="jossyShield">
+    <!-- Viewport-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+{% endblock %} 
+
+{% block loggedInMenu %}
+    {% if userAccess is defined and userAccess is not empty %}
+        <a class="nav-link-style font-size-sm text-nowrap" href="/logout">Logout</a>
+    {% else %}
+
+        {% if formSection == 'signup_user_info' %}
+            <a class="nav-link-style font-size-sm text-nowrap" href="/login">Login</a>
+        {% elseif formSection == 'login_user_info' %}
+            <a class="nav-link-style font-size-sm text-nowrap" href="/signup">Sign Up</a>
+        {% endif %}
+
+    {% endif %}
+                    
+{% endblock %}
+
+{% block pageContentBackground %}
+  <!-- Background shape-->
+    <section class="position-relative bg-dark" style="height: 200px;">
+        <div class="cs-shape cs-shape-bottom cs-shape-slant bg-body">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3000 250">
+                <polygon fill="currentColor" points="0,257 0,260 3000,260 3000,0"></polygon>
+            </svg>
+        </div>
+    </section>
+{% endblock %}
+
+{% block memberAddNewForm %} 
+  <!-- Contact details + Form-->
+  <section class="container bg-overlay-content pt-7" style="margin-top: -300px;">
+      <div class="row pt-md-4 pt-lg-5 mt-3">
+          <div class="col-md-8 offset-md-2 col-sm-12">
+                <div class="card border-0 box-shadow-lg">
+                    <div class="card-body py-5 px-3 px-sm-4">
+                        <h2 class="h3 text-center">Prostate Cancer Diagnosis System</h2>
+                        <p class="font-size-sm text-muted text-center">"...don't be statistic, check your's today."</p>
+                        {% if (error_message is defined) %}
+                            <!-- Danger alert -->
+                            <div class="alert alert-danger text-center" role="alert">
+                                <strong>ALERT!</strong> {{ error_message }}
+                            </div>
+                        {% elseif (success_message is defined) %}
+                            <!-- Success alert -->
+                            <div class="alert alert-success text-center" role="alert">
+                                <strong>ALERT!</strong> {{ success_message }}
+                            </div>
+                        {% endif %}
+                      
+                        <style>
+                            .invalid_feedback_server {
+                                /* display: none; */
+                                width: 100%;
+                                margin-top: .25rem;
+                                font-size: 80%;
+                                color: #f74f78;
+                            }
+                            .text-light {
+                                color: #ae9bf7 !important;
+                            }
+                            .form-complete-text-light {
+                                color: #7fc19b !important;
+                            }
+                            .form-complete-fe-size {
+                                font-size: 6rem !important;
+                            }
+                            .form-header{
+                                margin: 4rem 0 2rem;
+                            }
+                            .form-stages{
+                                position: relative;
+                            }
+                            .badge-floating {
+                                top:0px !important;
+                            }
+                        </style>
+                        
+                        {% if formSection == 'invalid_form' %}
+                            <!-- Jumbotron with background image -->
+                            <div class="jumbotron bg-size-cover bg-position-center bg-no-repeat text-center" style="background-image: url(path-to-image);">
+                                <h1 class="text-light text-shadow">Page not found!</h1>
+                                <p class="lead text-light text-shadow">
+                                    This form may have been compromised. Try again later
+                                </p>
+                                <hr class="my-4 hr-light">
+                                <p class="text-light pb-3">
+                                    Contact administrator or click the link below
+                                </p>
+                                <a href="/index" class="btn btn-primary" role="button">Home</a>
+                            </div>
+                        
+                        {% elseif userAccess == 'patient' %}
+                            {% if formSection == 'place_diagnosis_info' %}
+                                <!-- Nav tabs -->
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li class="nav-item">
+                                        <a href="#diagnosis" class="nav-link active" data-toggle="tab" role="tab">
+                                            <i class="fe-home mr-2"></i> New Diagnosis
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#diagnosis-report" class="nav-link" data-toggle="tab" role="tab">
+                                            <i class="fe-user mr-2"></i> Diagnosis Report 
+                                            {% if diagnosisUnread is defined and diagnosisUnread is not empty %}
+                                                <span class="badge badge-pill badge-danger">{{ diagnosisUnread }}</span>
+                                            {% endif %}
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#doctors-report" class="nav-link" data-toggle="tab" role="tab">
+                                            <i class="fe-user mr-2"></i> Doctor's Report
+                                            {% if diagnosisUnreadDoc is defined and diagnosisUnreadDoc is not empty %}
+                                                <span class="badge badge-pill badge-danger">{{ diagnosisUnreadDoc }}</span>
+                                            {% endif %}
+                                        </a>
+                                    </li>
+                                </ul>
+
+                                <!-- Tabs content -->
+                                <div class="tab-content">
+                                    <div class="tab-pane fade show active" id="diagnosis" role="tabpanel">
+                                        <div class="row form-header">
+                                            <div class="col-md-6">
+                                                <h5 class="h5">Place Diagnosis:</h5>
+                                            </div>
+                                        </div>
+                                        <form class="needs-validation pt-2 px-md-3" method="post" action="/index"><!-- Use the 'novalidate' attribute when activating template form validation -->
+                                            
+                                            <div class="row">
+                                                <div class="col-md-6 form-group">
+                                                    <label class="form-label" for="cont-fn">Age</label>
+                                                    <input class="form-control" type="text" name="age" value="{{ age.name }}" id="cont-fn" placeholder="">
+                                                    <div class="invalid-feedback">Please enter your username!</div>
+                                                    <div class="invalid_feedback_server">{{ age.error }}</div>
+                                                </div>
+                                                <div class="col-md-6 form-group">
+                                                    <label class="form-label" for="cont-fn">Gleason Score</label>
+                                                    <input class="form-control" type="text" name="gleason_score" value="{{ gleason_score.name }}" id="cont-fn" placeholder="">
+                                                    <div class="invalid-feedback">Please enter your password!</div>
+                                                    <div class="invalid_feedback_server">{{ gleason_score.error }}</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6 form-group">
+                                                    <label class="form-label" for="cont-fn">PSA</label>
+                                                    <input class="form-control" type="text" name="psa" value="{{ psa.name }}" id="cont-fn" placeholder="">
+                                                    <div class="invalid-feedback">Please enter your username!</div>
+                                                    <div class="invalid_feedback_server">{{ psa.error }}</div>
+                                                </div>
+                                                <div class="col-md-6 form-group">
+                                                    <label class="form-label" for="cont-fn">IPSS</label>
+                                                    <input class="form-control" type="text" name="ipss" value="{{ ipss.name }}" id="cont-fn" placeholder="">
+                                                    <div class="invalid-feedback">Please enter your password!</div>
+                                                    <div class="invalid_feedback_server">{{ ipss.error }}</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6 form-group">
+                                                    <label class="form-label" for="cont-fn">Activity</label>
+                                                    <input class="form-control" type="text" name="activity" value="{{ activity.name }}" id="cont-fn" placeholder="">
+                                                    <div class="invalid-feedback">Please enter your username!</div>
+                                                    <div class="invalid_feedback_server">{{ activity.error }}</div>
+                                                </div>
+                                                <div class="col-md-6 form-group">
+                                                    <label class="form-label" for="cont-fn">FPSA</label>
+                                                    <input class="form-control" type="text" name="fpsa" value="{{ fpsa.name }}" id="cont-fn" placeholder="">
+                                                    <div class="invalid-feedback">Please enter your password!</div>
+                                                    <div class="invalid_feedback_server">{{ fpsa.error }}</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6 form-group">
+                                                    <label class="form-label" for="cont-fn">PBV</label>
+                                                    <input class="form-control" type="text" name="pbv" value="{{ pbv.name }}" id="cont-fn" placeholder="">
+                                                    <div class="invalid-feedback">Please enter your username!</div>
+                                                    <div class="invalid_feedback_server">{{ pbv.error }}</div>
+                                                </div>
+                                                <div class="col-md-6 form-group">
+                                                    <label class="form-label" for="cont-fn">TNMS</label>
+                                                    <input class="form-control" type="text" name="tnms" value="{{ tnms.name }}" id="cont-fn" placeholder="">
+                                                    <div class="invalid-feedback">Please enter your password!</div>
+                                                    <div class="invalid_feedback_server">{{ tnms.error }}</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6 form-group">
+                                                    <label class="form-label" for="cont-fn">Ethnicity</label>
+                                                    <input class="form-control" type="text" name="ethnicity" value="{{ ethnicity.name }}" id="cont-fn" placeholder="">
+                                                    <div class="invalid-feedback">Please enter your username!</div>
+                                                    <div class="invalid_feedback_server">{{ ethnicity.error }}</div>
+                                                </div>
+                                                <div class="col-md-6 form-group">
+                                                    <div class="col-md-12">
+                                                        <label class="form-label" for="login_as1">Heredity </label>
+                                                    </div>
+                                                    <div class="custom-control custom-radio custom-control-inline">
+                                                        <input class="custom-control-input" type="radio" id="heredity1" name="heredity" value="yes" checked {% if heredity.name is defined and heredity.name == 'yes' %} checked  {% endif %}>
+                                                        <label class="custom-control-label" for="heredity1">Yes </label>
+                                                    </div>
+                                                    <div class="custom-control custom-radio custom-control-inline">
+                                                        <input class="custom-control-input" type="radio" id="heredity2" name="heredity" value="no" {% if heredity.name is defined and heredity.name == 'no' %} checked  {% endif %}>
+                                                        <label class="custom-control-label" for="heredity2">No </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="text-center pt-2">
+                                                <button class="btn btn-primary" type="submit" name="place_diagnosis_info" value="place_diagnosis" >Submit Diagnosis</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="tab-pane fade" id="diagnosis-report" role="tabpanel">
+                                        <div class="row bg-secondary" style="padding:20px 10px; margin: 30px 0px">
+                                            <div class="col-md-6 offset-md-3">
+                                                <form class="form-inline" method="post" action="/index">
+                                                    <label class="sr-only">Select Diagnosis</label>
+                                                    <div class="input-group mb-3 mr-sm-4">
+                                                        <select class="form-control custom-select" name="diagnosis_report" id="validationCustom03" required>
+                                                            <option value="">-- Select Diagnosis Id --</option>
+                                                            <!--<option value="">Diagnosis 1 - #gygyi</option>-->
+                                                            {% if diagnosisReports is defined and diagnosisReports is not empty %}
+                                                                {% for diagnosis in diagnosisReports %}
+                                                                <option value="{{ diagnosis.diagnosis_id }}">Diagnosis Id - {{ diagnosis.diagnosis_id| slice(0,6) ~ '...' }}</option>
+                                                                {% endfor %}
+                                                            {% endif %}
+                                                        </select>
+                                                        <div class="invalid_feedback_server">{{ diagnosis_report.error }}</div>
+                                                    </div>
+                                                    <button class="btn btn-primary mb-3" name="diagnosis_report_info" type="submit">View</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            {% if diagnosisOutput is not defined %}
+                                            <div class="col-md-12 text-danger text-center">
+                                                Select a diagnosis to view report
+                                            </div>
+                                            {% endif %}
+
+                                            {% if diagnosisOutput is defined and diagnosisOutput is not empty %}
+                                            <div class="col-md-12">
+                                                <div class="table-responsive">
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>#Diagnosis Id</th>
+                                                                <th>Diagnosis Level</th>
+                                                                <th>Result/ Remarks</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                                {% for diagnosis in diagnosisOutput %}
+                                                                <tr>
+                                                                    <td>
+                                                                        {% if diagnosis.outputCount is same as '1' %} {{ diagnosisId| slice(0,8) ~ '...' ~ diagnosisId|slice(12,3) }} {% endif %}
+                                                                    </td>
+                                                                    <td>PROSTATE CANCER LEVEL ({{ diagnosis.outputCount }})</td>
+                                                                    <td>
+                                                                        <div class="col-md-12">
+                                                                            <strong>Deductions:</strong>
+                                                                            <p>
+                                                                                {{ diagnosis.diagnosisDeduction }}
+                                                                            </p>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <form class="form-inline text-center" method="post" action="/index">
+                                                        <button class="btn btn-primary btn-sm offset-md-5" name="medical_advice_info" value="{{ diagnosisId }}" type="submit">Seek Medical Advice</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="tab-pane fade" id="doctors-report" role="tabpanel">
+                                        <div class="row bg-secondary" style="padding:20px 10px; margin: 30px 0px">
+                                            <div class="col-md-6 offset-md-3">
+                                                <form class="form-inline" method="post" action="/index">
+                                                    <label class="sr-only">Select Diagnosis</label>
+                                                    <div class="input-group mb-3 mr-sm-4">
+                                                        <select class="form-control custom-select" name="diagnosis_report_doc" id="validationCustom03" required>
+                                                            <option value="">-Select Diagnosis-</option>
+                                                            <!--<option value="#dgjfjghg">Diagnosis 1 - #gygyi</option>-->
+                                                            {% if diagnosisReportsDoc is defined and diagnosisReportsDoc is not empty %}
+                                                                {% for diagnosis in diagnosisReportsDoc %}
+                                                                <option value="{{ diagnosis.diagnosis_id }}">Diagnosis Id - {{ diagnosis.diagnosis_id| slice(0,6) ~ '...' }}</option>
+                                                                {% endfor %}
+                                                            {% endif %}
+                                                        </select>
+                                                    </div>
+                                                    <button class="btn btn-primary btn-sm mb-3" name="diagnosis_report_doc_info" type="submit">View</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            {% if diagnosisOutputDoc is not defined %}
+                                            <div class="col-md-12 text-danger text-center">
+                                                Select a diagnosis to view doctor's report
+                                            </div>
+                                            {% endif %}
+
+                                            {% if diagnosisOutputDoc is defined and diagnosisOutputDoc is not empty %}
+                                            <div class="col-md-12">
+                                                <div class="table-responsive">
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>#Diagnosis Id</th>
+                                                                <th>Diagnosis Level</th>
+                                                                <th>Result/ Remarks</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {% for diagnosis in diagnosisOutputDoc %}
+                                                                <tr>
+                                                                    <td>
+                                                                        {% if diagnosis.outputCount is same as '1' %} {{ diagnosisId| slice(0,8) ~ '...' ~ diagnosisId|slice(12,3) }} {% endif %}
+                                                                    </td>
+                                                                    <td>PROSTATE CANCER LEVEL ({{ diagnosis.outputCount }})</td>
+                                                                    <td>
+                                                                        <div class="col-md-12">
+                                                                            <strong>Deductions:</strong>
+                                                                            <p>
+                                                                                {{ diagnosis.diagnosisDeduction }}
+                                                                            </p>
+                                                                        </div>
+                                                                        <div class="col-md-12">
+                                                                            <strong>Expert Advice:</strong>
+                                                                            <p>
+                                                                                {{ diagnosis.diagnosisRemark }}
+                                                                            </p>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% elseif userAccess == 'doctor' %}
+                                <!-- Nav tabs -->
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li class="nav-item">
+                                        <a href="#diagnosis-queue" class="nav-link active" data-toggle="tab" role="tab">
+                                            <i class="fe-user mr-2"></i> Diagnosis Queue
+                                            {% if diagnosisUnread is defined and diagnosisUnread is not empty %}
+                                                <span class="badge badge-pill badge-danger">{{ diagnosisUnread }}</span>
+                                            {% endif %}
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#diagnosis-report" class="nav-link" data-toggle="tab" role="tab">
+                                            <i class="fe-user mr-2"></i> Diagnosis Report
+                                            {% if diagnosisUnreadDoc is defined and diagnosisUnreadDoc is not empty %}
+                                                <span class="badge badge-pill badge-danger">{{ diagnosisUnreadDoc }}</span>
+                                            {% endif %}
+                                        </a>
+                                    </li>
+                                </ul>
+
+                                <!-- Tabs content -->
+                                <div class="tab-content">
+                                    <div class="tab-pane fade show active" id="diagnosis-queue" role="tabpanel">
+                                        <div class="row bg-secondary" style="padding:20px 10px; margin: 30px 0px">
+                                            <div class="col-md-6 offset-md-3">
+                                                <form class="form-inline" method="post" action="/index">
+                                                    <label class="sr-only">Select Diagnosis</label>
+                                                    <div class="input-group mb-3 mr-sm-4">
+                                                        <select class="form-control custom-select" name="diagnosis_report" id="validationCustom03" required>
+                                                            <option value="">-- Select Diagnosis Id --</option>
+                                                            <!--<option value="">Diagnosis 1 - #gygyi</option>-->
+                                                            {% if diagnosisReports is defined and diagnosisReports is not empty %}
+                                                                {% for diagnosis in diagnosisReports %}
+                                                                <option value="{{ diagnosis.diagnosis_id }}">Diagnosis Id - {{ diagnosis.diagnosis_id| slice(0,6) ~ '...' }}</option>
+                                                                {% endfor %}
+                                                            {% endif %}
+                                                        </select>
+                                                        <div class="invalid_feedback_server">{{ diagnosis_report.error }}</div>
+                                                    </div>
+                                                    <button class="btn btn-primary mb-3" name="diagnosis_report_queue_info" type="submit">View</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            {% if diagnosisOutput is not defined %}
+                                            <div class="col-md-12 text-danger text-center">
+                                                Select a diagnosis to view report
+                                            </div>
+                                            {% endif %}
+
+                                            {% if diagnosisOutput is defined and diagnosisOutput is not empty %}
+                                            <div class="col-md-12">
+                                                <ul class="nav nav-tabs justify-content-end" role="tablist">
+                                                    <li class="nav-item">
+                                                        <a href="#patient-result" class="nav-link active" data-toggle="tab" role="tab">Result</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a href="#patient-profile" class="nav-link" data-toggle="tab" role="tab">Profile</a>
+                                                    </li>
+                                                </ul>
+                                                <!-- Tabs content -->
+                                                <div class="tab-content">
+                                                    <div class="tab-pane fade show active" id="patient-result" role="tabpanel">
+                                                        <form class="form-inline text-center" method="post" action="/index">
+                                                            <div class="table-responsive">
+                                                                <table class="table">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>#Diagnosis Id</th>
+                                                                            <th>Diagnosis Level</th>
+                                                                            <th>Result/ Remarks</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        {% for diagnosis in diagnosisOutput %}
+                                                                        <tr>
+                                                                            <td>
+                                                                                {% if diagnosis.outputCount is same as '1' %} {{ diagnosisId| slice(0,8) ~ '...' ~ diagnosisId|slice(12,3) }} {% endif %}
+                                                                            </td>
+                                                                            <td>PROSTATE CANCER LEVEL ({{ diagnosis.outputCount }})</td>
+                                                                            <td>
+                                                                                <div class="col-md-12">
+                                                                                    <strong>Deductions:</strong>
+                                                                                    <p>
+                                                                                        {{ diagnosis.diagnosisDeduction }}
+                                                                                    </p>
+                                                                                </div>
+                                                                                <div class="col-md-12">
+                                                                                    <strong>Expert Advice:</strong>
+                                                                                    <div class="form-group">
+                                                                                        <textarea class="form-control" name="advice{{ diagnosis.outputCount }}" id="textarea-input" rows="3"></textarea>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        {% endfor %}
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <button class="btn btn-primary btn-sm" name="doctors_response_info" value="{{ diagnosisId }}" type="submit">Respond</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="patient-profile" role="tabpanel">
+
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="tab-pane fade" id="diagnosis-report" role="tabpanel">
+                                        <div class="row bg-secondary" style="padding:20px 10px; margin: 30px 0px">
+                                            <div class="col-md-6 offset-md-3">
+                                                <form class="form-inline" method="post" action="/index">
+                                                    <label class="sr-only">Select Diagnosis</label>
+                                                    <div class="input-group mb-3 mr-sm-4">
+                                                        <select class="form-control custom-select" name="diagnosis_report_doc" id="validationCustom03" required>
+                                                            <option value="">-Select Diagnosis-</option>
+                                                            <!--<option value="#dgjfjghg">Diagnosis 1 - #gygyi</option>-->
+                                                            {% if diagnosisReportsDoc is defined and diagnosisReportsDoc is not empty %}
+                                                                {% for diagnosis in diagnosisReportsDoc %}
+                                                                <option value="{{ diagnosis.diagnosis_id }}">Diagnosis Id - {{ diagnosis.diagnosis_id| slice(0,6) ~ '...' }}</option>
+                                                                {% endfor %}
+                                                            {% endif %}
+                                                        </select>
+                                                    </div>
+                                                    <button class="btn btn-primary btn-sm mb-3" name="diagnosis_report_doc_queue_info" type="submit">View</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            {% if diagnosisOutputDoc is not defined %}
+                                            <div class="col-md-12 text-danger text-center">
+                                                Select a diagnosis to view doctor's report
+                                            </div>
+                                            {% endif %}
+
+                                            {% if diagnosisOutputDoc is defined and diagnosisOutputDoc is not empty %}
+                                            <div class="col-md-12">
+                                                <div class="table-responsive">
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>#Diagnosis Id</th>
+                                                                <th>Diagnosis Level</th>
+                                                                <th>Result/ Remarks</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {% for diagnosis in diagnosisOutputDoc %}
+                                                                <tr>
+                                                                    <td>
+                                                                        {% if diagnosis.outputCount is same as '1' %} {{ diagnosisId| slice(0,8) ~ '...' ~ diagnosisId|slice(12,3) }} {% endif %}
+                                                                    </td>
+                                                                    <td>PROSTATE CANCER LEVEL ({{ diagnosis.outputCount }})</td>
+                                                                    <td>
+                                                                        <div class="col-md-12">
+                                                                            <strong>Deductions:</strong>
+                                                                            <p>
+                                                                                {{ diagnosis.diagnosisDeduction }}
+                                                                            </p>
+                                                                        </div>
+                                                                        <div class="col-md-12">
+                                                                            <strong>Expert Advice:</strong>
+                                                                            <p>
+                                                                                {{ diagnosis.diagnosisRemark }}
+                                                                            </p>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                        {% endif %}
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+

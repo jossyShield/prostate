@@ -1,0 +1,269 @@
+{% extends 'layout.twig' %} 
+
+{% block pageTitle %} 
+  <title>Prostate Cancer Diagnosis</title>
+{% endblock %} 
+
+{% block pageMetaTags %} 
+  <meta charset="utf-8">
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Prostate Cancer">
+    <meta name="keywords" content="Cancer">
+    <meta name="author" content="jossyShield">
+    <!-- Viewport-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+{% endblock %} 
+
+{% block loggedInMenu %}
+    {% if userAccess is defined and userAccess is not empty %}
+        <a class="nav-link-style font-size-sm text-nowrap" href="/logout">Logout</a>
+    {% else %}
+
+        {% if formSection == 'signup_user_info' %}
+            <a class="nav-link-style font-size-sm text-nowrap" href="/login">Login</a>
+        {% elseif formSection == 'login_user_info' %}
+            <a class="nav-link-style font-size-sm text-nowrap" href="/signup">Sign Up</a>
+        {% endif %}
+
+    {% endif %}
+                    
+{% endblock %}
+
+{% block pageContentBackground %}
+  <!-- Background shape-->
+    <section class="position-relative bg-dark" style="height: 200px;">
+        <div class="cs-shape cs-shape-bottom cs-shape-slant bg-body">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3000 250">
+                <polygon fill="currentColor" points="0,257 0,260 3000,260 3000,0"></polygon>
+            </svg>
+        </div>
+    </section>
+{% endblock %}
+
+
+{% block memberAddNewForm %} 
+  <!-- Contact details + Form-->
+    <section class="container bg-overlay-content pt-7" style="margin-top: -300px;">
+        <div class="row pt-md-4 pt-lg-5 mt-3">
+            <div class="col-md-6 offset-md-3 col-sm-12">
+                <div class="card border-0 box-shadow-lg">
+                    <div class="card-body py-5 px-3 px-sm-4">
+                        <h2 class="h3 text-center">Prostate Cancer Diagnosis System</h2>
+                        <p class="font-size-sm text-muted text-center">"...don't be statistic, check your's today."</p>
+                        {% if (error_message is defined) %}
+                            <!-- Danger alert -->
+                            <div class="alert alert-danger text-center" role="alert">
+                                <strong>ALERT!</strong> {{ error_message }}
+                            </div>
+                        {% elseif (form_completed_message is defined) %}
+                            <!-- Success alert -->
+                            <div class="alert alert-success text-center" role="alert">
+                                <strong>ALERT!</strong> {{ form_completed_message }}
+                            </div>
+                        {% endif %}
+                      
+                        <style>
+                            .invalid_feedback_server {
+                                /* display: none; */
+                                width: 100%;
+                                margin-top: .25rem;
+                                font-size: 80%;
+                                color: #f74f78;
+                            }
+                            .text-light {
+                                color: #ae9bf7 !important;
+                            }
+                            .form-complete-text-light {
+                                color: #7fc19b !important;
+                            }
+                            .form-complete-fe-size {
+                                font-size: 6rem !important;
+                            }
+                            .form-header{
+                                margin: 4rem 0 2rem;
+                            }
+                            .form-stages{
+                                position: relative;
+                            }
+                            .badge-floating {
+                                top:0px !important;
+                            }
+                        </style>
+
+                        {% if formSection == 'login_user_info' %}
+                            <div class="row form-header">
+                                <div class="col-md-6">
+                                    <h5 class="h5">Login As:</h5>
+                                </div>
+                            </div>
+                            <form class="needs-validation pt-2 px-md-3" method="post" action="/login"><!-- Use the 'novalidate' attribute when activating template form validation -->
+                                <div class="row">
+                                    <div class="col-md-12 form-group">
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input class="custom-control-input" type="radio" id="login_as1" name="login_as" value="doctor" {% if login_as.name is defined and login_as.name == 'doctor' %} checked  {% endif %}>
+                                            <label class="custom-control-label" for="login_as1">Doctor </label>
+                                        </div>
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input class="custom-control-input" type="radio" id="login_as2" name="login_as" value="patient" {% if login_as.name is defined and login_as.name == 'patient' %} checked  {% endif %}>
+                                            <label class="custom-control-label" for="login_as2">Patient </label>
+                                        </div>
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input class="custom-control-input" type="radio" id="login_as3" name="login_as" value="" checked {% if login_as.name is defined and login_as.name == 'patient' %} checked  {% endif %}>
+                                            <label class="custom-control-label" for="login_as3">None </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="invalid-feedback">Please enter your username!</div>
+                                        <div class="invalid_feedback_server">{{ login_as.error }}</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6 form-group">
+                                        <label class="form-label" for="cont-fn">Username</label>
+                                        <input class="form-control" type="text" name="username" value="{{ username.name }}" id="cont-fn" placeholder="">
+                                        <div class="invalid-feedback">Please enter your username!</div>
+                                        <div class="invalid_feedback_server">{{ username.error }}</div>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="form-label" for="cont-fn">Password</label>
+                                        <input class="form-control" type="password" name="password" value="{{ password.name }}" id="cont-fn" placeholder="">
+                                        <div class="invalid-feedback">Please enter your password!</div>
+                                        <div class="invalid_feedback_server">{{ password.error }}</div>
+                                    </div>
+                                </div>                        
+                                
+                                <div class="text-center pt-2">
+                                    <button class="btn btn-primary" type="submit" name="login_user_info" value="login_user" >Login</button>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 text-center lighter">
+                                       <p class="font-size-sm text-muted text-center"><a href="/signup">Do not have an account? Sign Up!</a></p> 
+                                    </div>
+                                </div>
+                            </form>
+                        {% elseif formSection == 'signup_user_info' %}
+                            <div class="row form-header">
+                                <div class="col-md-6">
+                                    <h5 class="h5">Sign Up Form:</h5>
+                                </div>
+                            </div>
+                            <form class="needs-validation pt-2 px-md-3" method="post" action="/signup"><!-- Use the 'novalidate' attribute when activating template form validation -->
+                                
+                                <div class="row">
+                                    <div class="col-md-6 form-group">
+                                        <label class="form-label" for="surname">Surname</label>
+                                        <input class="form-control" type="text" name="surname" value="{{ surname.name }}" id="surname" placeholder="">
+                                        <div class="invalid-feedback">Please enter your username!</div>
+                                        <div class="invalid_feedback_server">{{ surname.error }}</div>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="form-label" for="firstname">Firstname</label>
+                                        <input class="form-control" type="text" name="firstname" value="{{ firstname.name }}" id="firstname" placeholder="">
+                                        <div class="invalid-feedback">Please enter your password!</div>
+                                        <div class="invalid_feedback_server">{{ firstname.error }}</div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 form-group">
+                                        <label class="form-label" for="address">Address</label>
+                                        <input class="form-control" type="text" name="address" value="{{ address.name }}" id="address" placeholder="">
+                                        <div class="invalid-feedback">Please enter your username!</div>
+                                        <div class="invalid_feedback_server">{{ address.error }}</div>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="form-label" for="firstname">Phone Number</label>
+                                        <input class="form-control" type="text" name="phone_number" value="{{ phone_number.name }}" id="phone_number" placeholder="">
+                                        <div class="invalid-feedback">Please enter your password!</div>
+                                        <div class="invalid_feedback_server">{{ phone_number.error }}</div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 form-group">
+                                        <label class="form-label" for="password">Create Password</label>
+                                        <input class="form-control" type="password" name="password" value="{{ password.name }}" id="password" placeholder="">
+                                        <div class="invalid-feedback">Please enter your username!</div>
+                                        <div class="invalid_feedback_server">{{ password.error }}</div>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="form-label" for="password_confirm">Confirm Password</label>
+                                        <input class="form-control" type="password" name="password_confirm" value="{{ password_confirm.name }}" id="password_confirm" placeholder="">
+                                        <div class="invalid-feedback">Please enter your password!</div>
+                                        <div class="invalid_feedback_server">{{ password_confirm.error }}</div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 form-group">
+                                        <label class="form-label" for="username_profile">Username</label>
+                                        <input class="form-control" type="text" name="username_profile" value="{{ username_profile.name }}" id="username_profile" placeholder="">
+                                        <div class="invalid-feedback">Please enter your username!</div>
+                                        <div class="invalid_feedback_server">{{ username_profile.error }}</div>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="form-label" for="occupation">Occupation</label>
+                                        <input class="form-control" type="text" name="occupation" value="{{ occupation.name }}" id="occupation" placeholder="">
+                                        <div class="invalid-feedback">Please enter your password!</div>
+                                        <div class="invalid_feedback_server">{{ occupation.error }}</div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 form-group">
+                                        <label class="form-label" for="nok">Next of Kin</label>
+                                        <input class="form-control" type="text" name="nok" value="{{ nok.name }}" id="nok" placeholder="">
+                                        <div class="invalid-feedback">Please enter your username!</div>
+                                        <div class="invalid_feedback_server">{{ nok.error }}</div>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="form-label" for="nok_relationship">Relationship with Next of Kin</label>
+                                        <input class="form-control" type="text" name="nok_relationship" value="{{ nok_relationship.name }}" id="nok_relationship" placeholder="">
+                                        <div class="invalid-feedback">Please enter your password!</div>
+                                        <div class="invalid_feedback_server">{{ nok_relationship.error }}</div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12 form-group">
+                                        <label class="form-label" for="marital_status">Marital Status </label>
+                                    </div>
+                                    <div class="col-md-12 form-group">
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input class="custom-control-input" type="radio" id="marital_status1" name="marital_status" value="single" checked {% if marital_status.name is defined and marital_status.name == 'single' %} checked  {% endif %}>
+                                            <label class="custom-control-label" for="marital_status1">Single </label>
+                                        </div>
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input class="custom-control-input" type="radio" id="marital_status2" name="marital_status" value="married" {% if marital_status.name is defined and marital_status.name == 'married' %} checked  {% endif %}>
+                                            <label class="custom-control-label" for="marital_status3">Married </label>
+                                        </div>
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input class="custom-control-input" type="radio" id="marital_status3" name="marital_status" value="divorced" {% if marital_status.name is defined and marital_status.name == 'divorced' %} checked  {% endif %}>
+                                            <label class="custom-control-label" for="marital_status3">Divorced </label>
+                                        </div>
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input class="custom-control-input" type="radio" id="marital_status4" name="marital_status" value="widowed" {% if marital_status.name is defined and marital_status.name == 'widowed' %} checked  {% endif %}>
+                                            <label class="custom-control-label" for="marital_status4">Widowed </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="text-center pt-2">
+                                    <button class="btn btn-primary" type="submit" name="signup_user_info" value="signup_user" >Sign Up</button>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 text-center lighter">
+                                       <p class="font-size-sm text-muted text-center"><a href="/login">Already have an account? Login!</a></p> 
+                                    </div>
+                                </div> 
+                            </form>
+                        {% endif %}
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+

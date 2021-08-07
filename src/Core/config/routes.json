@@ -1,0 +1,24 @@
+{
+    "": {
+        "controller": "Home",
+        "method": "getPageContent"
+    },
+    "index": {
+        "controller": "Home",
+        "method": "getPageContent",
+        "login": true
+    },
+    "signup": {
+        "controller": "Auth",
+        "method": "signupForm"
+    },
+    "login": {
+        "controller": "Home",
+        "method": "getPageContent",
+        "login": true
+    },
+    "logout": {
+        "controller": "Auth",
+        "method": "logoutForm"
+    }
+}

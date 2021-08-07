@@ -1,0 +1,23 @@
+{
+	"name": "picahielos/bookstore",
+    "description": "Manages an online bookstore",
+    "minimum-stability": "stable",
+    "license": "Apache-2.0",
+    "type": "project",
+    "authors": [
+		{
+			"name": "Joseph Udoh",
+			"email": "jossyboyjoe@gmail.com"
+		}
+    ],
+    "require": {
+        "monolog/monolog": "^2.2",
+        "twig/twig": "^3.1"
+    },
+    "autoload": {
+		"psr-4": {
+			"Bookstore\\":"src"
+		}
+	},
+	"log": "/var/log/bookstore.log"
+}

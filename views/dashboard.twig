@@ -1,0 +1,139 @@
+{% extends 'layout-privilege.twig' %}
+
+{% block pageContent %}
+	<!-- Dashboard Page content-->
+	<div class="content-i" data-title="Aniferaz - Dashboard">
+		<div class="content-box">
+			<div class="element-wrapper pb-0">
+				<div class="element-actions float-right">
+					<div class="form-group">
+						<select class="form-control form-control-sm" id="db_date_range">
+							<option>All Time</option>
+							<option value="thism">2019/2020</option>
+						</select>
+					</div>
+				</div>
+				<h6 class="element-header mb-2">Dashboard</h6>
+				<div class="element-content">
+					{% if privilegeStatus == 4 %}
+						<div class="row">
+							<div class="col-sm-4 col-xxxl-3">
+								<a class="element-box el-tablo" href="#">
+									<div class="label">Student</div>
+									<div class="value">3000</div>
+								</a>
+							</div>
+							
+							<div class="col-sm-4 col-xxxl-3">
+								<a class="element-box el-tablo" href="#">
+									<div class="label">Beneficiaries</div>
+									<div class="value">1000</div>
+								</a>
+							</div>
+							
+							<div class="col-sm-4 col-xxxl-3">
+								<a class="element-box el-tablo" href="#">
+									<div class="label">Total Amount</div>
+									<div class="value">120000</div>
+								</a>
+							</div>
+							
+						</div>
+					{% endif %}
+				</div>
+			</div>
+			
+			
+			{% if privilegeStatus == 4 %}
+			<div class="row">
+				<div class="col-md-8">
+					<div class="element-wrapper">
+						<h6 class="element-header">Previous Disbursement</h6>
+						<div class="element-box-tp">
+							<div class="table-responsive">
+								<table class="table table-padded">
+									<thead>
+										<tr>
+											<th>Session</th>
+											<th>Beneficiaries</th>
+											<th>Date</th>
+											<th class="text-right">Amount</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td class="nowrap">2019/2020</td>
+											<td class="text-right bolder nowrap">
+												<span class="text-success">1,000</span>
+												<span class="smaller lighter red">2,000</span>
+											</td>
+											<td class="text-center"><a class="badge badge-success" href="#">21st July, 2021</a></td>
+											<td class="text-right bolder nowrap">
+												<span class="text-success">NAIRA 12,000.00</span>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="element-wrapper">
+						<h6 class="element-header">Beneficiary by LGA</h6>
+						<div class="element-box">
+							<div class="os-progress-bar warning">
+								<div class="bar-labels">
+									<div class="bar-label-left">
+										<span class="bigger">Uyo</span>
+									</div>
+									<div class="bar-label-right">
+										<span class="info">10 Students</span>
+									</div>
+								</div>
+								<div class="bar-level-1" style="width: 100%">
+									<div class="bar-level-2" style="width: 10%"></div>
+								</div>
+							</div>
+							<div class="os-progress-bar danger">
+								<div class="bar-labels">
+									<div class="bar-label-left">
+										<span class="bigger">Itu</span>
+									</div>
+									<div class="bar-label-right">
+										<span class="info">20 Students</span>
+									</div>
+								</div>
+								<div class="bar-level-1" style="width: 100%">
+									<div class="bar-level-2" style="width: 20%"></div>
+								</div>
+							</div>
+							<div class="os-progress-bar success">
+								<div class="bar-labels">
+									<div class="bar-label-left">
+										<span class="bigger">Uruan</span>
+									</div>
+									<div class="bar-label-right">
+										<span class="info">30 Students</span>
+									</div>
+								</div>
+								<div class="bar-level-1" style="width: 100%">
+									<div class="bar-level-2" style="width: 30%"></div>
+								</div>
+							</div>
+						
+						</div>
+						
+					</div>
+				</div>
+			</div>
+			{% endif %}
+		</div>
+	</div>
+			
+{% endblock %}
+
+
+
+
+

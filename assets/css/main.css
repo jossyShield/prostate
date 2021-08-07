@@ -1,0 +1,227 @@
+/*@media (max-width: 768px)
+.support-index .support-ticket-content-w .support-ticket-content {
+    padding: 10px 5px;
+}
+* */
+.order-box{
+	padding: 0px !important;
+}
+
+.table .lighter{
+	color: #e65252;
+}
+
+/* Clientele Page Css*/
+.st-body{
+	/*height: 8.5em;*/
+}
+.support-index .st-body .ticket-content .ticket-description {
+    color: #adb5bd;
+    font-size: .81rem;
+    font-weight: 300;
+    height: 1.215rem;
+    overflow: inherit;
+}
+.projects-list .project-head{
+	padding: 10px 0px;
+	border-bottom: none;
+}
+.support-index .support-ticket-content-w {
+    /*background: none ;*/
+    padding: 10px;
+    box-shadow: none;
+}
+
+.support-index .support-ticket-content-w .support-ticket-info {
+    background-color: none;
+    /*background: -webkit-gradient(linear, left top, left bottom, from(#eff1f7), to(#f9fafc)); */
+    background: none;
+}
+
+.support-ticket-content .bg-light {
+    padding: 1em !important;
+}
+.jobs{
+	padding:1em;
+}
+.jobs .badge{
+	padding:0.6em;
+}
+
+.users-list .a-left {
+    display: inline-table;
+    margin: 0.5em;
+}
+.add-agent-btn{
+	text-align: center;
+}
+.add-agent-btn i {
+    margin-right: 0px;
+    padding-left: 0px;
+}
+
+.admin-view .tickets-filter{
+	display:contents !important;
+}
+
+.user-avatar-w img{
+	width:5em;
+	margin:0.2em;
+}
+
+.clientele-view h6{
+	font-size:0.7rem;
+}
+
+.clientele-view .edit-page-data{
+		display: block;
+		position: absolute;
+		top: -5px;
+		right: 10px;
+	}
+
+.clientele-view .next-page-btn{
+	display: grid;
+	position: inherit;
+	margin-bottom: 20px;
+	margin-left: 10px;
+}
+
+ul.users-list.as-tiles li a:hover {
+    display: block;
+    background-color: #fff;
+    box-shadow: 0px 2px 4px rgb(23 91 241 / 90%);
+    padding: 10px;
+    border-radius: 6px;
+    margin: 0px;
+    text-decoration: none;
+    -webkit-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+}
+
+.job-style:hover{
+	box-shadow: 0 2px 20px 0 rgb(46 130 255 / 75%);
+}
+
+.job{
+	background: #FFFFFF !important;
+	box-shadow: 0 2px 20px 0 rgb(46 130 255 / 30%);
+	color: #097CFF !important;
+	min-height: 3.5em;
+}
+
+.job-selected{
+	position: absolute;
+    left: 35%;
+    bottom: -2em !important;
+}
+
+.job-pix{
+	position:relative;
+	margin-left: 2.7em;
+	margin-bottom:3em;
+}
+
+.job-pix>label>input {
+    position: relative;
+    top: 1px;
+    left: 1px;
+    margin:0px !important;
+    
+}
+.job-pix>label {
+    position: absolute;
+    bottom: -2px;
+    left: 2px;
+    padding:2px;
+}
+
+.job-pix>.style-name {
+    position: absolute;
+    bottom: -2.8em;
+    left: -2em;
+    padding:2px;
+    width: 7em;
+}
+
+.job-style {
+	margin: 10px 3px;
+    bottom: 10px;
+    width: 10em;
+    background: #fbe6a8;//#097CFF;
+    //box-shadow: 0 2px 20px 0 rgb(46 130 255 / 75%);
+    border-radius: 75px;
+    color: #fff;
+    padding: 3px 3px;
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    vertical-align: middle;
+    font-size: 1.08rem;
+    cursor: pointer;
+    -webkit-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+}
+
+.job-style .avatar img {
+    border-radius: 40px;
+    width: 40px;
+    height: auto;
+}
+
+.job-style h4{
+	text-align: center;
+	font-size: 14px;
+}
+
+.job-style span{
+	text-align: center ;
+	font-size: smaller;
+}
+
+.fs-extra-info{
+	margin-left: 10px;
+}
+
+
+.pull-right-bg {
+    position: absolute;
+    right: 10px;
+    top: -30px;
+    padding-block: 12px;
+}
+
+.pull-right-sm {
+    position: absolute;
+    right: 10px;
+    top: -30px;
+    padding-block: 3px;
+}
+
+@media (max-width: 370px){
+	.clientele-view .rem {
+		display:none !important;
+		margin-top:1em;
+	}
+	.clientele-view .rem ::first {
+		display:inline-block !important;
+		margin-top:1em;
+	}
+	.clientele-view .views-block {
+		display:block !important;
+		margin-top:1em;
+	}
+	.clientele-view .edit-page-data{
+		display: block;
+		position: absolute;
+		top: -5px;
+		right: 10px;
+	}
+	.clientele-view .next-page-btn{
+		display: grid;
+		position: inherit;
+		margin-bottom: 20px;
+		margin-left: 10px;
+	}
+}
