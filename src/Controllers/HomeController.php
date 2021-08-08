@@ -1020,7 +1020,7 @@ class HomeController extends AbstractController{
 	}
 
 	private function addFormSectionData(string $current_section, array $validated_posts, array $form_sections){
-		
+		//return true
 		$request = $validated_posts;
 		$model = new MemberModel($this->db);
 

@@ -1,3 +1,0 @@
-[2021-07-19T09:07:55.172299+00:00] GFCC - Bookstore\Core\Db.CRITICAL: Database connection failure PDO: SQLSTATE[HY000] [1049] Unknown database 'prostate' [] []
-[2021-07-19T09:07:55.193928+00:00] GFCC - Bookstore\Core\Db.CRITICAL: Database connection failure PDO: SQLSTATE[HY000] [1049] Unknown database 'prostate' [] []
-[2021-07-19T09:07:55.233790+00:00] GFCC - Bookstore\Core\Db.CRITICAL: Database connection failure PDO: SQLSTATE[HY000] [1049] Unknown database 'prostate' [] []
